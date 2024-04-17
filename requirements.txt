@@ -1,6 +1,6 @@
-numpy==1.18.2
-torch==1.4.0
-tensorboardX==2.0
+numpy
+torch
+tensorboardX
 scikit_image==0.16.2
 matplotlib==2.2.3
 tqdm==4.43.0

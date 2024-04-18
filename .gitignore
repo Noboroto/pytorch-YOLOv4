@@ -18,3 +18,7 @@ log
 *.jpg
 *.json
 data/outcome
+data_unzip
+train
+data
+test

@@ -132,7 +132,7 @@ class Yolo_loss(nn.Module):
         super(Yolo_loss, self).__init__()
         self.device = device
         self.strides = [8, 16, 32]
-        image_size = 608
+        image_size = 416
         self.n_classes = n_classes
         self.n_anchors = n_anchors
 
@@ -142,7 +142,7 @@ class Yolo_loss(nn.Module):
 
         self.masked_anchors, self.ref_anchors, self.grid_x, self.grid_y, self.anchor_w, self.anchor_h = [], [], [], [], [], []
 
-        for i in range(3):
+        for i in range(len(self.strides)):
             all_anchors_grid = [(w / self.strides[i], h / self.strides[i]) for w, h in self.anchors]
             masked_anchors = np.array([all_anchors_grid[j] for j in self.anch_masks[i]], dtype=np.float32)
             ref_anchors = np.zeros((len(all_anchors_grid), 4), dtype=np.float32)
@@ -208,10 +208,10 @@ class Yolo_loss(nn.Module):
             truth_box[:n, 0] = truth_x_all[b, :n]
             truth_box[:n, 1] = truth_y_all[b, :n]
 
-            pred_ious = bboxes_iou(pred[b].view(-1, 4), truth_box, xyxy=False)
+            pred_ious = bboxes_iou(pred[b].contiguous().view(-1, 4), truth_box, xyxy=False)
             pred_best_iou, _ = pred_ious.max(dim=1)
             pred_best_iou = (pred_best_iou > self.ignore_thre)
-            pred_best_iou = pred_best_iou.view(pred[b].shape[:3])
+            pred_best_iou = pred_best_iou.contiguous().view(pred[b].shape[:3])
             # set mask to zero (ignore) if pred matches truth
             obj_mask[b] = ~ pred_best_iou
 

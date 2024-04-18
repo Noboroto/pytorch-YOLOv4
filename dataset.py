@@ -429,12 +429,12 @@ def get_image_id(filename:str) -> int:
     # no = f"{int(no):04d}"
     # return int(lv+no)
 
-    print("You could also create your own 'get_image_id' function.")
-    # print(filename)
+    
     parts = filename.split('/')
-    id = int(parts[-1][0:-4])
+    id_str = parts[-1].replace(".jpg","")[-4:]
+    _id = int("".join([str(ord(i.lower()) - ord('a')) if not i.isdigit() else i for i in id_str]))
     # print(id)
-    return id
+    return _id
 
 
 if __name__ == "__main__":

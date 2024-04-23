@@ -254,9 +254,10 @@ def loadRes(self, resFile):
 
     # print('Loading and preparing results...')
     # tic = time.time()
-    if isinstance(resFile, torch._six.string_classes):
-        anns = json.load(open(resFile))
-    elif type(resFile) == np.ndarray:
+    # if isinstance(resFile, torch._six.string_classes):
+    #     anns = json.load(open(resFile))
+    #el
+    if type(resFile) == np.ndarray:
         anns = self.loadNumpyAnnotations(resFile)
     else:
         anns = resFile
